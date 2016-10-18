@@ -1,0 +1,44 @@
+[package]
+description = "Low level access to STM32F0 register"
+keywords = ["arm", "cortex-m0", "stm32"]
+documentation = "https://doc.rs/stm32f0"
+license = "MIT OR Apache-2.0"
+name = "stm32f0"
+version = "0.1.0"
+authors = ["Samuel Dolt <samuel@dolt.ch>"]
+
+[dependencies]
+volatile-register = "0.1.1"
+bitflags = "0.7.0"
+
+[profile.release]
+lto = true
+
+[features]
+
+default = ["STM32F072RB"]
+
+# STM32F0 Series
+STM32F0x0 = []
+STM32F0x1 = []
+STM32F0x2 = []
+STM32F0x8 = []
+
+# STM32F0xx series (By Datasheet)
+STM32F072 = ["STM32F0x2"]
+
+# SRM32F0xxx series ( Same package )
+STM32F072Rx = ["STM32F072", "GPIOA", "GPIOB", "GPIOC", "GPIOD", "GPIOF"]
+
+# By part
+STM32F072RB = ["STM32F072Rx"]
+
+
+# Peripherals
+GPIOA = []
+GPIOB = []
+GPIOC = []
+GPIOD = []
+GPIOE = []
+GPIOF = []
+

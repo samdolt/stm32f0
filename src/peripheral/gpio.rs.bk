@@ -1,0 +1,21 @@
+use volatile_register::{RO, RW, WO};
+
+#[allow(non_snake_case)]
+#[repr(C)]
+pub struct Gpio {
+
+    MODER : RW<u32>,
+    OTYPER : RW<u32>,
+    OSPEEDR : RW<u32>,
+    PUPDR: RW<u32>,
+    IDR: RO<u32>,
+    ODR: RW<u32>,
+    BSRR: WO<u32>,
+    LCKR: RW<u32>,
+    AFRL: RW<u32>,
+    AFRH: RW<u32>,
+    BRR: WO<u32>
+
+}
+
+
