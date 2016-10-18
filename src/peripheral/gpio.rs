@@ -19,6 +19,16 @@
 
 use volatile_register::{RO, RW, WO};
 
+#[repr(usize)]
+enum GPIO {
+    GPIOA = 0,
+    GPIOB = 1*1024,
+    GPIOC = 2*1024,
+    GPIOD = 3*1024,
+    GPIOE = 4*1024,
+    GPIOF = 5*1024,
+}
+
 
 #[repr(C)]
 pub struct GPIO {
@@ -40,7 +50,9 @@ unsafe fn get_gpio(adress: usize) -> &'static mut GPIO {
 }
 
 #[cfg(feature = "GPIOA")]
-pub unsafe fn GPIOA() -> &'static mut GPIO { get_gpio(0x4800_0000) }
+pub unsafe fn GPIOA() -> &'static mut GPIO {
+    get_gpio(0x4800_0000)
+}
 
 #[cfg(feature = "GPIOB")]
 pub unsafe fn GPIOB() -> &'static mut GPIO {
