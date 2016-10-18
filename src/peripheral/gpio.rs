@@ -19,14 +19,48 @@
 
 use volatile_register::{RO, RW, WO};
 
+const PORT_BASE: usize = 0x4800_0000;
+const PORT_SIZE: usize = 1024;
+
 #[repr(usize)]
-enum GPIO {
-    GPIOA = 0,
-    GPIOB = 1*1024,
-    GPIOC = 2*1024,
-    GPIOD = 3*1024,
-    GPIOE = 4*1024,
-    GPIOF = 5*1024,
+pub enum Ports {
+    #[cfg(feature = "GPIOA")]
+    PortA = 0,
+
+    #[cfg(feature = "GPIOB")]
+    PortB = 1,
+
+    #[cfg(feature = "GPIOC")]
+    PortC = 2,
+
+    #[cfg(feature = "GPIOD")]
+    PortD = 3,
+
+    #[cfg(feature = "GPIOE")]
+    PortE = 4,
+
+    #[cfg(feature = "GPIOF")]
+    PortF = 5,
+}
+
+#[repr(u16)]
+enum Pins {
+    Pin0 = 0b0000000000000001,
+    Pin1 = 0b0000000000000010,
+    Pin2 = 0b0000000000000100,
+    Pin3 = 0b0000000000001000,
+    Pin4 = 0b0000000000010000,
+    Pin5 = 0b0000000000100000,
+    Pin6 = 0b0000000001000000,
+    Pin7 = 0b0000000010000000,
+    Pin8 = 0b0000000100000000,
+    Pin9 = 0b0000001000000000,
+    Pin10 = 0b0000010000000000,
+    Pin11 = 0b0000100000000000,
+    Pin12 = 0b0001000000000000,
+    Pin13 = 0b0010000000000000,
+    Pin14 = 0b0100000000000000,
+    Pin15 = 0b1000000000000000,
 }
 
 
@@ -43,6 +77,12 @@ pub struct GPIO {
     AFRL: RW<u32>,
     AFRH: RW<u32>,
     BRR: WO<u32>,
+}
+
+unsafe fn get_gpio2(port: Ports) -> &'static mut GPIO {
+    let adress: usize = port * PORT_SIZE + PORT_BASE;
+    &mut *(adress as *mut GPIO)
+
 }
 
 unsafe fn get_gpio(adress: usize) -> &'static mut GPIO {
